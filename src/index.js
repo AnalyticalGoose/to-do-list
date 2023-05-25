@@ -1,4 +1,4 @@
-import storageAvailable from "./storage"
+import returnFolders from "./storage"
 
 const addFolderBtn = document.querySelector('.add-folder-container') 
 const inputContainer = document.querySelector('.input-container')
@@ -28,4 +28,4 @@ closeModalBtn.addEventListener('click', function() {
 
 
 
-console.log(storageAvailable())
+console.log(returnFolders())

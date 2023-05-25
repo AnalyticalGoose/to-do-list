@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=#, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="/dist/img/inbox.svg">
     <title>To-do List</title>
 </head>
 <body>
@@ -15,14 +16,17 @@
     <div class="main">
 
         <div class="side-container">
+
             <div class="selector-container selected">
                 <img src="./img/inbox.svg">
                 <h3 class="selector">Inbox</h3>
             </div>
+
             <div class="selector-container">
                 <img src="./img/calendar-today.svg">
                 <h3 class="selector">Today</h3>
             </div>
+            
             <div class="selector-container">
                 <img src="./img/calendar-week.svg">
                 <h3 class="selector">This Week</h3>
@@ -62,8 +66,7 @@
 
 
 
-        <dialog class="modal">
-            
+        <dialog class="modal">          
             <div class="modal-title-container">
                 <h2>Add New Task</h2>
                 <img class="close-modal" src="./img/close.svg">
@@ -81,13 +84,10 @@
 
             <div class="task-input-container">
                 <p><b>Priority:</b></p>
-
                 <button id="low-button" class="priority-button">Low</button>
                 <button id= "medium-button" class="priority-button">Med</button>
                 <button id= "high-button" class="priority-button">High</button>
-
             </div>
-
         </dialog>
 
 
