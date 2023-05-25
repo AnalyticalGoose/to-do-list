@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+/* * {
+    border: 2px solid red;
+} */
+
+:root {
+    --vdark: #392c7a;
+    --dark: #2a1d6bc4;
+    --main: #6854cf;
+    --lowlight: #584aa1;
+    --highlight: #846feb;
+    --textcolour: rgb(255, 255, 255);
+
+    font-family: Raleway;
+}
+
+body,
+h1,
+h2,
+h3 {
+    margin: 0;
+}
+
+header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 3vw;
+
+    height: 10vh;
+    background-color: var(--vdark);
+    color: var(--textcolour);
+
+    box-shadow: 0 3px 5px var(--dark);
+}
+
+.main {
+    display: flex;
+    height: 90vh;
+}
+
+.side-container {
+    background-color: var(--main);
+    width: 300px;
+    border-right: 4px solid var(--vdark);
+
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.selector-container,
+.input-container,
+.add-folder-container {
+    display: flex;
+    height: 40px;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+}
+
+.input-container {
+    flex-direction: column;
+    height: 85px;
+    gap: 10px;
+}
+
+.selector-container:hover,
+.add-folder-container:hover {
+    background-color: var(--highlight);
+}
+
+.selected {
+    background-color: var(--highlight);
+}
+
+.selector {
+    align-self: center;
+    padding-left: 10px;
+}
+
+.folders-title {
+    padding: 30px 0 10px 40px;
+    font-size: 2rem;
+}
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.add-task-button {
+    margin-top: auto;
+    margin-right: auto;
+    margin-left: 30px;
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+
+    box-shadow: 3px 3px 5px var(--vdark);
+    color: var(--textcolour);
+    background-color: var(--vdark);
+}
+
+.add-task-button:hover {
+    background-color: var(--lowlight);
+}
+
+.buttons-container {
+    display: flex;
+    gap: 10px;
+}
+
+.button-add,
+.button-cancel {
+    height: 40px;
+    width: 100px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+}
+
+.button-add {
+    background-color: rgba(122, 221, 122, 0.849);
+}
+
+.button-add:hover,
+.button-cancel:hover {
+    filter: brightness(125%);
+}
+
+.button-cancel {
+    background-color: rgb(243, 135, 135);
+}
+
+.folder-input {
+    width: 203px;
+    font-size: 1.2rem;
+}
+
+#hide {
+    display: none;
+}

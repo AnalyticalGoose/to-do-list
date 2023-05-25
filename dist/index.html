@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=#, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>To-do List</title>
+</head>
+<body>
+    <header>
+        <h1 class="header-text">To-do List</h1>
+    </header>
+
+    <div class="main">
+
+        <div class="side-container">
+            <div class="selector-container selected">
+                <img src="./img/inbox.svg">
+                <h3 class="selector">Inbox</h3>
+            </div>
+            <div class="selector-container">
+                <img src="./img/calendar-today.svg">
+                <h3 class="selector">Today</h3>
+            </div>
+            <div class="selector-container">
+                <img src="./img/calendar-week.svg">
+                <h3 class="selector">This Week</h3>
+            </div>
+
+            <h2 class="folders-title">Folders</h2>
+
+            <div class="folders-container">
+                <div class="selector-container selected">
+                    <img src="./img/folder.svg">
+                    <h3 class="selector">Personal</h3>
+                </div>
+                <div class="selector-container">
+                    <img src="./img/folder.svg">
+                    <h3 class="selector">Work</h3>
+                </div>
+            </div>
+            
+            <div class="input-container" id="hide">
+                <form action="">
+                    <input class="folder-input" type="text" name="" id="">
+                </form>
+                <div class="buttons-container">
+                    <button class="button-add">Add</button>
+                    <button class="button-cancel">Cancel</button>
+                </div>
+            </div>
+            <div class="add-folder-container">
+                <img src="./img/plus.svg">
+                <h3 class="selector">Add new folder</h3>
+            </div>
+        </div>
+
+        <div class="list-container">
+            <button class="add-task-button">Add New Task</button>
+        </div>
+
+    </div>
+
+
+    <script src="main.js"></script>
+</body>
+</html>
