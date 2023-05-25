@@ -12,6 +12,10 @@
     --highlight: #846feb;
     --textcolour: rgb(255, 255, 255);
 
+    --green: rgba(122, 221, 122, 0.849);
+    --amber: rgba(228, 163, 78, 0.836);
+    --red: rgb(243, 135, 135);
+
     font-family: Raleway;
 }
 
@@ -122,11 +126,11 @@ header {
     width: 100px;
     border-radius: 5px;
     border: none;
-    font-size: 1rem;
+    font-size: 1.2rem;
 }
 
 .button-add {
-    background-color: rgba(122, 221, 122, 0.849);
+    background-color: var(--green)
 }
 
 .button-add:hover,
@@ -135,12 +139,68 @@ header {
 }
 
 .button-cancel {
-    background-color: rgb(243, 135, 135);
+    background-color: var(--red)
 }
 
 .folder-input {
     width: 203px;
     font-size: 1.2rem;
+}
+
+.modal-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal {
+    width: 325px;
+
+}
+
+.modal::backdrop {
+    background-color: rgba(58, 47, 68, 0.719)
+}
+
+.task-input-container {
+    display: flex;
+    height: 30px;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.close-modal {
+    height: 35px;
+    width: 35px;
+}
+
+.close-modal:hover {
+    outline: 2px solid black;
+}
+
+.priority-button {
+    width: 60px;
+    height: 30px;
+    border: none;
+    font-size: 1rem;
+    border-radius: 3px;
+}
+
+.priority-button:hover {
+    outline: 2px solid black;
+}
+
+#low-button {
+    background-color: var(--green);
+}
+
+#medium-button {
+    background-color: var(--amber);
+}
+
+#high-button {
+    background-color: var(--red);
 }
 
 #hide {
