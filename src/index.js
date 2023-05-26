@@ -8,6 +8,7 @@ const newTaskBtn = document.querySelector('.add-task-button')
 const closeModalBtn = document.querySelector('.close-modal')
 const modal = document.querySelector('.modal')
 const foldersContainer = document.querySelector('.folders-container')
+const tableContainer = document.querySelector('.task-table')
 
 
 addFolderBtn.addEventListener('click', function() {
@@ -33,13 +34,16 @@ function getFoldersContainer() {
     return foldersContainer
 }
 
+function getTableContainer() {
+    return tableContainer
+}
+
 
 function init() {
     //Return stored data, or default data for a fresh user and populate UI. 
     generateUI(returnFolders())
-
 }
 
 init()
 
-export { getFoldersContainer }
+export { getFoldersContainer, getTableContainer }

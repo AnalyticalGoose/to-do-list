@@ -48,14 +48,14 @@ const defaultFolders =
         name : "Personal",
         tasks: [
             ["Study hard!", "01-06-2023", null],
-            ["Wash Car", "26-05-2023", "medium"],
-            ["Defeat Evil", null, "high"]
+            ["Wash Car", "26-05-2023", "Medium"],
+            ["Defeat Evil", null, "High"]
         ]
     },
     {   name : "Work",
         tasks: [
-            ["Work hard!", null, "low"],
-            ["Don't get fired", "01-01-2065", "high"],
+            ["Work hard!", null, "Low"],
+            ["Don't get fired", "01-01-2065", "High"],
             ["Placate boss", null, null]
         ]
     }]
