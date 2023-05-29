@@ -5,6 +5,7 @@ export default function generateUI(folders) {
     folders.forEach(element => {
         createFolder(element)
         createTableRow(element)
+        setEventListeners()
     });
 }
 
@@ -27,21 +28,36 @@ function createFolder(element) {
     foldersContainer.appendChild(div)
 }
 
-// TO DO - generate tables with the remainder of object data
-//       - add way to delete folders and content
 
 function createTableRow(element) {
     
     element.tasks.forEach(arr => {
+
+        console.log(arr)
+
         const newRow = document.createElement('div');
         newRow.classList.add('task-row' ,`${arr[2]}`)
         
-        // left 'compelte' checkbox
+        // left 'complete' checkbox
         const checkbox = document.createElement('input')
         checkbox.setAttribute('type', 'checkbox')
+        checkbox.classList.add('checkbox')
         newRow.appendChild(checkbox)
 
+        // Task content
+        const taskContainer = document.createElement('div')
+        taskContainer.classList.add('task-container')
 
+        const taskName = document.createElement('span')
+        const taskDate = document.createElement('span')
+        taskName.classList.add('task-name')
+        taskDate.classList.add('task-date')
+
+        taskName.textContent = arr[0]
+        taskDate.textContent = arr[1]
+
+        taskContainer.append(taskName, taskDate)
+        newRow.appendChild(taskContainer)
 
         // right 'edit and 'delete buttons
         const btnsContainer = document.createElement('div')
@@ -63,4 +79,22 @@ function createTableRow(element) {
         tableContainer.appendChild(newRow)
 
     })
+}
+
+function setEventListeners() {
+    const checkboxes = document.querySelectorAll('input.checkbox')
+
+    checkboxes.forEach (checkbox => {
+        checkbox.addEventListener('click', function(e) {
+            e.stopImmediatePropagation()
+            fadeRow(e.target.parentElement)
+        })
+    })
+}
+
+function fadeRow(div) {
+    if (div.classList.contains('fade')) {
+        div.classList.remove('fade')
+    }
+    else div.classList.add('fade')
 }

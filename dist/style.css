@@ -256,6 +256,26 @@ header {
     filter: invert(1);
 }
 
+.task-container {
+    display: flex;
+    margin-right: auto;
+}
+
+.fade {
+    color: rgba(148, 138, 138, 0.719);
+}
+
+.task-name,
+.task-date {
+    position: relative;
+    left: 30px;
+}
+
+.task-date {
+    position: absolute;
+    left: 50vw
+}
+
 #hide {
     display: none;
 }
