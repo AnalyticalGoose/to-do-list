@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 
-/* * {
-    border: 2px solid red;
-} */
-
 :root {
     --vdark: #392c7a;
     --dark: #2a1d6bc4;
@@ -134,7 +130,8 @@ header {
 }
 
 .button-add:hover,
-.button-cancel:hover {
+.button-cancel:hover,
+.submit-button:hover {
     filter: brightness(125%);
 }
 
@@ -153,12 +150,14 @@ header {
     align-items: center;
 }
 
-.modal {
+.modal,
+.edit-row-modal {
     width: 325px;
 
 }
 
-.modal::backdrop {
+.modal::backdrop,
+.edit-row-modal::backdrop {
     background-color: rgba(58, 47, 68, 0.719)
 }
 
@@ -170,11 +169,13 @@ header {
     justify-content: space-between;
 }
 
+.close-modal-main,
 .close-modal {
     height: 35px;
     width: 35px;
 }
 
+.close-modal-main:hover,
 .close-modal:hover {
     outline: 2px solid black;
 }
@@ -187,19 +188,38 @@ header {
     border-radius: 3px;
 }
 
-.priority-button:hover {
+.submit-button {
+    width: 100px;
+    height: 35px;
+    border: none;
+    font-size: 1.2rem;
+    border-radius: 3px;
+    background-color: var(--highlight);
+    
+    position: relative;
+    left: 32%;
+}
+
+.prio-btn-select {
     outline: 2px solid black;
 }
 
-#low-button {
+.priority-button:hover {
+    border-bottom: 1px solid black;
+}
+
+#low-button,
+#edit-low-button {
     background-color: var(--green);
 }
 
-#medium-button {
+#medium-button,
+#edit-medium-button {
     background-color: var(--amber);
 }
 
-#high-button {
+#high-button,
+#edit-high-button {
     background-color: var(--red);
 }
 

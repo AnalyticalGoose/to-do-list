@@ -50,7 +50,7 @@
         </div>
 
         <div class="list-container">
-            <div class="task-table">
+            <div class="task-table" id="main-table">
 
             </div>
 
@@ -58,10 +58,43 @@
         </div>
 
 
+        <dialog class="edit-row-modal">
+            <div class="modal-title-container">
+                <h2>Edit Task</h2>
+                <img src="./img/close.svg" class="close-modal" id="close-edit-modal">
+            </div>
+
+            <div class="task-input-container">
+                <p><b>Name:</b></p>
+                <input type="text" required id="edit-text">
+            </div>
+
+            <div class="task-input-container">
+                <p><b>Date:</b></p>
+                <input class="date-input" type="date" id="edit-date">
+            </div>
+
+            <div class="task-input-container">
+                <p><b>Priority:</b></p>
+                <button id="edit-low-button" class="priority-button">Low</button>
+                <button id= "edit-medium-button" class="priority-button">Med</button>
+                <button id= "edit-high-button" class="priority-button">High</button>
+            </div>
+
+            <div class="task-input-container">
+                <button class="submit-button">Submit</button>
+            </div>
+
+        </dialog>
+
+
+
+
+
         <dialog class="modal">          
             <div class="modal-title-container">
                 <h2>Add New Task</h2>
-                <img class="close-modal" src="./img/close.svg">
+                <img class="close-modal-main" src="./img/close.svg">
             </div>
 
             <div class="task-input-container">

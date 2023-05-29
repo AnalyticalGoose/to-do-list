@@ -1,4 +1,4 @@
-export default function returnFolders() {
+function returnFolders() {
     if (storageAvailable("localStorage")) {                 
         return getFromStorage()
     }
@@ -38,24 +38,26 @@ function getFromStorage() {
     }
 }
 
-function populateStorage() {
+function populateStorage(folders = defaultFolders) {
     localStorage.clear()
-    localStorage.setItem("folders", JSON.stringify(defaultFolders))   
+    localStorage.setItem("folders", JSON.stringify(folders))   
 }
 
 const defaultFolders = 
     [{
         name : "Personal",
         tasks: [
-            ["Study hard!", "01-06-2023", null],
-            ["Wash Car", "26-05-2023", "Medium"],
+            ["Study hard!", "2023-06-01", null],
+            ["Wash Car", "2023-05-26", "Medium"],
             ["Defeat Evil", null, "High"]
         ]
     },
     {   name : "Work",
         tasks: [
             ["Work hard!", null, "Low"],
-            ["Don't get fired", "01-01-2065", "High"],
+            ["Don't get fired", "2065-01-01", "High"],
             ["Placate boss", null, null]
         ]
     }]
+
+export { returnFolders, populateStorage, getFromStorage }

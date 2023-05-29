@@ -1,11 +1,11 @@
-import returnFolders from "./storage"
+import { returnFolders } from "./storage"
 import generateUI from "./UI"
 
 const addFolderBtn = document.querySelector('.add-folder-container') 
 const inputContainer = document.querySelector('.input-container')
 const cancelFolderBtn = document.querySelector('.button-cancel')
 const newTaskBtn = document.querySelector('.add-task-button')
-const closeModalBtn = document.querySelector('.close-modal')
+const closeModalBtn = document.querySelector('.close-modal-main')
 const modal = document.querySelector('.modal')
 const foldersContainer = document.querySelector('.folders-container')
 const tableContainer = document.querySelector('.task-table')
