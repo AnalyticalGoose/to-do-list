@@ -5,7 +5,13 @@ import { getFromStorage } from "./storage";
 
 let storageCopy = []
 const editModal = document.querySelector('.edit-row-modal')
-const closeModal = document.querySelector('#close-edit-modal')
+const closeModal = document.getElementById('close-edit-modal')
+const table = document.getElementById('main-table');
+
+// to-do
+// - Filter by date
+// - Add new folders
+// - Add new tasks
 
 export default function generateUI(folders) {
     storageCopy = folders
@@ -25,6 +31,8 @@ function createFolder(element) {
         <h3 class="selector">${element.name}</h3>
       </div>
     `;
+
+    foldersContainer.addEventListener('click', selectFolder)
 }
   
 function createTableRow(element) {
@@ -33,6 +41,7 @@ function createTableRow(element) {
     element.tasks.forEach(arr => {
         const newRow = document.createElement('div');
         newRow.className = `task-row ${arr[2]}`;
+        newRow.setAttribute('id', element.name)
   
         newRow.innerHTML = `
         <input type="checkbox" class="checkbox">
@@ -52,8 +61,7 @@ function createTableRow(element) {
 }
   
 function setTableEventListeners() {
-    const table = document.getElementById('main-table');
-  
+
     const handleEvent = (event) => {
         let target = event.target;
         let parentElement = target.parentElement;
@@ -85,34 +93,32 @@ function editRow(sibling) {
     const submitBtn = document.querySelector('.submit-edit-button');
     const textInput = document.querySelector('#edit-text');
     const dateInput = document.querySelector('#edit-date');
-  
-    textInput.value = sibling.previousSibling.children[0].textContent;
-    dateInput.value = sibling.previousSibling.children[1].textContent;
 
-    let parentDiv = sibling.parentElement
-    selectPriorityBtn(sibling.parentElement.classList[1], parentDiv)
+    const { previousSibling } = sibling;
+    textInput.value = previousSibling.children[0].textContent;
+    dateInput.value = previousSibling.children[1].textContent;
+
+    const parentDiv = sibling.parentElement;
+    selectPriorityBtn(parentDiv.classList[1], parentDiv);
 
     editModal.showModal();
-  
-    submitBtn.addEventListener('click', function handleClick() {
-        const taskName = sibling.previousSibling.children[0].textContent;
+
+    const handleClick = () => {
+        const taskName = previousSibling.children[0].textContent;
         const newName = textInput.value;
         const newDate = dateInput.value;
         const newPriority = getPriority();
-  
+
         updateRow(taskName, newName, newDate, newPriority);
         clearPriority();
         editModal.close();
-  
-        submitBtn.removeEventListener('click', handleClick); // Remove the event listener
-    },  { once: true });
 
-    closeModal.addEventListener('click', function() { 
-        clearPriority()
-        editModal.close()    
-    })
+        submitBtn.removeEventListener('click', handleClick);
+    };
+    
+    submitBtn.addEventListener('click', handleClick, { once: true });
 }
-  
+
 function updateRow(matchingString, newName, newDate, newPriority) {
     storageCopy.forEach(folder => {
         folder.tasks.forEach(task => {
@@ -163,14 +169,11 @@ function setPriority(button) {
   
 function getPriority() {
     let selectedPrioBtn = document.querySelector('.prio-btn-select')
-    if (!selectedPrioBtn) {
-        return "null"
-    }
-    else return selectedPrioBtn.textContent
+    return selectedPrioBtn ? selectedPrioBtn.textContent : "null";
 }
 
 function clearPriority() {
-    let selectedPrioBtns = document.querySelectorAll('.prio-btn-select')
+    const selectedPrioBtns = document.querySelectorAll('.prio-btn-select')
     
     if (selectedPrioBtns) {
         selectedPrioBtns.forEach(button => {
@@ -204,3 +207,44 @@ function deleteRow(div) {
     })
     reRenderTable()
 }
+
+const selectFolder = (e) => {
+    clearFolders()
+
+    e.target.classList.add('selected')
+    
+    filterFolders(e)
+}
+
+function clearFolders() {
+    const selectedFolders = document.querySelectorAll('.selected') 
+
+    selectedFolders.forEach(folder => {
+        folder.classList.remove('selected')
+    })
+}
+
+const filterFolders = (e) => {
+    let folderName = e.target.innerText;
+  
+    const taskRows = document.querySelectorAll('.task-row');
+    taskRows.forEach(row => {
+        if (row.id == folderName && row.classList.contains('task-row')) {
+            row.classList.add('hide');
+        } else if (row.classList.contains('task-row')) {
+            row.classList.remove('hide');
+        }
+    });
+};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        clearPriority();
+        editModal.close();
+    }
+});
+
+closeModal.addEventListener('click', () => {
+    clearPriority();
+    editModal.close();
+});
