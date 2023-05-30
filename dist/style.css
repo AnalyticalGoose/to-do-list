@@ -131,7 +131,8 @@ header {
 
 .button-add:hover,
 .button-cancel:hover,
-.submit-button:hover {
+.submit-button:hover,
+.submit-edit-button:hover {
     filter: brightness(125%);
 }
 
@@ -188,7 +189,8 @@ header {
     border-radius: 3px;
 }
 
-.submit-button {
+.submit-button,
+.submit-edit-button {
     width: 100px;
     height: 35px;
     border: none;
@@ -252,7 +254,8 @@ header {
     border-left: 5px solid red;
 }
 
-.Medium {
+.Medium,
+.Med {
     border-left: 5px solid rgb(223, 149, 12);
 }
 

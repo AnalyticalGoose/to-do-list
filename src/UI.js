@@ -90,9 +90,9 @@ function setTableEventListeners() {
     const table = document.getElementById('main-table');
   
     const handleEvent = (event) => {
-        const target = event.target;
-        const parentElement = target.parentElement;
-        const siblingElement = parentElement.previousSibling;
+        let target = event.target;
+        let parentElement = target.parentElement;
+        let siblingElement = parentElement.previousSibling;
   
         if (target.matches('input.checkbox')) {
             event.stopImmediatePropagation();
@@ -119,8 +119,11 @@ function fadeRow(div) {
     else div.classList.add('fade')
 }
 
-function editRow(div) {
-    let parentDiv = div.parentElement
+function editRow(sibling) {
+    
+    let taskName = sibling.children[0]
+    let taskDate = sibling.children[1]
+    let parentDiv = sibling.parentElement
 
     const textInput = document.querySelector('#edit-text')
     const dateInput = document.querySelector('#edit-date')
@@ -129,17 +132,19 @@ function editRow(div) {
     const medPrioBtn = document.querySelector('#edit-medium-button')
     const lowPrioBtn = document.querySelector('#edit-low-button')
 
+    const submitBtn = document.querySelector('.submit-edit-button')
+
     // populate name and date with values stored in table
-    textInput.value = div.childNodes[0].innerText
-    dateInput.value = div.childNodes[1].innerText
+    textInput.value = sibling.childNodes[0].innerText
+    dateInput.value = sibling.childNodes[1].innerText
 
     // Select the button for the current task priority
-    const currentPrio = div.parentElement.classList[1]
+    let currentPrio = sibling.parentElement.classList[1]
 
     if (currentPrio == "High") {
         highPrioBtn.classList.add('prio-btn-select')
     }
-    else if (currentPrio == "Medium") {
+    else if (currentPrio == "Medium" || currentPrio == "Med") {
         medPrioBtn.classList.add('prio-btn-select')
     }
     else if (currentPrio == "Low") {
@@ -163,24 +168,71 @@ function editRow(div) {
         setPriority(lowPrioBtn, parentDiv)
     })
 
+    submitBtn.addEventListener('click', function(e) {
+        e.stopImmediatePropagation()
+
+        console.log(taskName)
+
+        let newName = textInput.value
+        let newDate = dateInput.value
+        let newPrio = getPriority()
+
+        // update localStorage with new data
+        updateRow(taskName.textContent, newName, newDate, newPrio)
+        
+        // // // update variable in table row UI
+        // taskName.textContent = newName
+        // taskDate.textContent = newDate
+
+        // // // replace priority in the UI element and update the stored variable
+        // parentDiv.classList.replace(currentPrio, newPrio)
+        // currentPrio = newPrio
+
+        clearPriority()
+        editModal.close()
+    })
 
     closeModal.addEventListener('click', function() { 
-        clearPrio()
+        clearPriority()
         editModal.close()    
     })
 }
 
 function setPriority(button) {
-    clearPrio()
+    clearPriority()
     button.classList.add('prio-btn-select')
 }
 
-function clearPrio() {
-    const selectedPrioBtn = document.querySelector('.prio-btn-select')
+function getPriority() {
+    let selectedPrioBtn = document.querySelector('.prio-btn-select')
+    if (!selectedPrioBtn) {
+        return "null"
+    }
+    else return selectedPrioBtn.textContent
+}
+
+function clearPriority() {
+    let selectedPrioBtn = document.querySelector('.prio-btn-select')
     
     if (selectedPrioBtn) {
         selectedPrioBtn.classList.remove('prio-btn-select')
     }
+}
+
+function updateRow(oldName, newName, newDate, newPrio) {
+
+    storageCopy.forEach(folder => {
+        folder.tasks.forEach(arr => {
+            if (arr.includes(oldName)) {
+                arr[0] = newName
+                arr[1] = newDate
+                arr[2] = newPrio
+
+                console.log(arr)
+            }
+        })
+    })
+    regenerateTable()
 }
 
 function deleteRow(div) {
