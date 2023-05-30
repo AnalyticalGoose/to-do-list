@@ -7,8 +7,6 @@ let storageCopy = []
 const editModal = document.querySelector('.edit-row-modal')
 const closeModal = document.querySelector('#close-edit-modal')
 
-// to-do -- submit buttons to update tables
-
 export default function generateUI(folders) {
     storageCopy = folders
     folders.forEach(element => {
@@ -19,73 +17,40 @@ export default function generateUI(folders) {
 }
 
 function createFolder(element) {
-    
-    const div = document.createElement('div')
-    div.classList.add('selector-container')  
-    
-    const folderImg = document.createElement('img')
-    folderImg.src = "./img/folder.svg"
-    div.appendChild(folderImg)
-    
-    const name = document.createElement('h3')  
-    name.classList.add('selector')
-    name.textContent = element.name
-    div.appendChild(name)
-
-    const foldersContainer = getFoldersContainer()
-
-    foldersContainer.appendChild(div)
+    const foldersContainer = getFoldersContainer();
+  
+    foldersContainer.innerHTML += `
+      <div class="selector-container">
+        <img src="./img/folder.svg">
+        <h3 class="selector">${element.name}</h3>
+      </div>
+    `;
 }
-
+  
 function createTableRow(element) {
-    
+    const tableContainer = getTableContainer();
+  
     element.tasks.forEach(arr => {
         const newRow = document.createElement('div');
-        newRow.classList.add('task-row' ,`${arr[2]}`)
-        
-        // left 'complete' checkbox
-        const checkbox = document.createElement('input')
-        checkbox.setAttribute('type', 'checkbox')
-        checkbox.classList.add('checkbox')
-        newRow.appendChild(checkbox)
-
-        // Task content
-        const taskContainer = document.createElement('div')
-        taskContainer.classList.add('task-container')
-
-        const taskName = document.createElement('span')
-        const taskDate = document.createElement('span')
-        taskName.classList.add('task-name')
-        taskDate.classList.add('task-date')
-
-        taskName.textContent = arr[0]
-        taskDate.textContent = arr[1]
-
-        taskContainer.append(taskName, taskDate)
-        newRow.appendChild(taskContainer)
-
-        // right 'edit and 'delete buttons
-        const btnsContainer = document.createElement('div')
-        btnsContainer.classList.add('edit-del-container')
-        
-        const editBtn = document.createElement('img')
-        editBtn.classList.add('edit-button')
-        editBtn.src = "./img/edit.svg"
-        btnsContainer.appendChild(editBtn)
-
-        const delBtn = document.createElement('img')
-        delBtn.classList.add('delete-button')
-        delBtn.src = "./img/delete.svg"
-        btnsContainer.appendChild(delBtn)
-        
-        newRow.appendChild(btnsContainer)
-
-        const tableContainer = getTableContainer()
-        tableContainer.appendChild(newRow)
-
-    })
+        newRow.className = `task-row ${arr[2]}`;
+  
+        newRow.innerHTML = `
+        <input type="checkbox" class="checkbox">
+        <div class="task-container">
+            <span class="task-name">${arr[0]}</span>
+            <span class="task-date">${arr[1] !== null ? arr[1] : ''}</span>
+        </div>
+        <div class="edit-del-container">
+            <img class="edit-button" src="./img/edit.svg">
+            <img class="delete-button" src="./img/delete.svg">
+        </div>
+        `;
+  
+      tableContainer.appendChild(newRow);
+    });
+  
 }
-
+  
 function setTableEventListeners() {
     const table = document.getElementById('main-table');
   
@@ -113,45 +78,67 @@ function setTableEventListeners() {
 }
 
 function fadeRow(div) {
-    if (div.classList.contains('fade')) {
-        div.classList.remove('fade')
-    }
-    else div.classList.add('fade')
+    div.classList.toggle('fade');
 }
 
 function editRow(sibling) {
-    
-    let taskName = sibling.children[0]
-    let taskDate = sibling.children[1]
-    let parentDiv = sibling.parentElement
+    const submitBtn = document.querySelector('.submit-edit-button');
+    const textInput = document.querySelector('#edit-text');
+    const dateInput = document.querySelector('#edit-date');
+  
+    textInput.value = sibling.previousSibling.children[0].textContent;
+    dateInput.value = sibling.previousSibling.children[1].textContent;
 
-    const textInput = document.querySelector('#edit-text')
-    const dateInput = document.querySelector('#edit-date')
-    
+    let parentDiv = sibling.parentElement
+    selectPriorityBtn(sibling.parentElement.classList[1], parentDiv)
+
+    editModal.showModal();
+  
+    submitBtn.addEventListener('click', function handleClick() {
+        const taskName = sibling.previousSibling.children[0].textContent;
+        const newName = textInput.value;
+        const newDate = dateInput.value;
+        const newPriority = getPriority();
+  
+        updateRow(taskName, newName, newDate, newPriority);
+        clearPriority();
+        editModal.close();
+  
+        submitBtn.removeEventListener('click', handleClick); // Remove the event listener
+    },  { once: true });
+
+    closeModal.addEventListener('click', function() { 
+        clearPriority()
+        editModal.close()    
+    })
+}
+  
+function updateRow(matchingString, newName, newDate, newPriority) {
+    storageCopy.forEach(folder => {
+        folder.tasks.forEach(task => {
+            if (task.includes(matchingString)) {
+                task[0] = newName;
+                task[1] = newDate;
+                task[2] = newPriority;
+                return
+            }
+        });
+    });
+    reRenderTable()
+}
+  
+function selectPriorityBtn(prio, parentDiv) {
     const highPrioBtn = document.querySelector('#edit-high-button')
     const medPrioBtn = document.querySelector('#edit-medium-button')
     const lowPrioBtn = document.querySelector('#edit-low-button')
 
-    const submitBtn = document.querySelector('.submit-edit-button')
-
-    // populate name and date with values stored in table
-    textInput.value = sibling.childNodes[0].innerText
-    dateInput.value = sibling.childNodes[1].innerText
-
-    // Select the button for the current task priority
-    let currentPrio = sibling.parentElement.classList[1]
-
-    if (currentPrio == "High") {
-        highPrioBtn.classList.add('prio-btn-select')
+    if (prio === "High") {
+        highPrioBtn.classList.add('prio-btn-select');
+      } else if (prio === "Medium" || prio === "Med") {
+        medPrioBtn.classList.add('prio-btn-select');
+      } else if (prio === "Low") {
+        lowPrioBtn.classList.add('prio-btn-select');
     }
-    else if (currentPrio == "Medium" || currentPrio == "Med") {
-        medPrioBtn.classList.add('prio-btn-select')
-    }
-    else if (currentPrio == "Low") {
-        lowPrioBtn.classList.add('prio-btn-select')
-    }
-    editModal.showModal()
-
 
     highPrioBtn.addEventListener('click', function(e) {
         e.stopImmediatePropagation()
@@ -167,42 +154,13 @@ function editRow(sibling) {
         e.stopImmediatePropagation()
         setPriority(lowPrioBtn, parentDiv)
     })
-
-    submitBtn.addEventListener('click', function(e) {
-        e.stopImmediatePropagation()
-
-        console.log(taskName)
-
-        let newName = textInput.value
-        let newDate = dateInput.value
-        let newPrio = getPriority()
-
-        // update localStorage with new data
-        updateRow(taskName.textContent, newName, newDate, newPrio)
-        
-        // // // update variable in table row UI
-        // taskName.textContent = newName
-        // taskDate.textContent = newDate
-
-        // // // replace priority in the UI element and update the stored variable
-        // parentDiv.classList.replace(currentPrio, newPrio)
-        // currentPrio = newPrio
-
-        clearPriority()
-        editModal.close()
-    })
-
-    closeModal.addEventListener('click', function() { 
-        clearPriority()
-        editModal.close()    
-    })
 }
-
+  
 function setPriority(button) {
     clearPriority()
     button.classList.add('prio-btn-select')
 }
-
+  
 function getPriority() {
     let selectedPrioBtn = document.querySelector('.prio-btn-select')
     if (!selectedPrioBtn) {
@@ -212,44 +170,16 @@ function getPriority() {
 }
 
 function clearPriority() {
-    let selectedPrioBtn = document.querySelector('.prio-btn-select')
+    let selectedPrioBtns = document.querySelectorAll('.prio-btn-select')
     
-    if (selectedPrioBtn) {
-        selectedPrioBtn.classList.remove('prio-btn-select')
+    if (selectedPrioBtns) {
+        selectedPrioBtns.forEach(button => {
+            button.classList.remove('prio-btn-select')
+        })
     }
 }
 
-function updateRow(oldName, newName, newDate, newPrio) {
-
-    storageCopy.forEach(folder => {
-        folder.tasks.forEach(arr => {
-            if (arr.includes(oldName)) {
-                arr[0] = newName
-                arr[1] = newDate
-                arr[2] = newPrio
-
-                console.log(arr)
-            }
-        })
-    })
-    regenerateTable()
-}
-
-function deleteRow(div) {
-    const taskname = div.childNodes[0].innerText
-
-    storageCopy.forEach(folder => {
-        folder.tasks.forEach(arr => {
-            if (arr.includes(taskname)) {
-                let index = folder.tasks.indexOf(arr)
-                folder.tasks.splice(index, 1)
-            }
-        })
-    })
-    regenerateTable()
-}
-
-function regenerateTable() {
+function reRenderTable() {
     populateStorage(storageCopy)
     getTableContainer().innerHTML = ""
 
@@ -259,4 +189,18 @@ function regenerateTable() {
         createTableRow(element)
         setTableEventListeners()
     });
+}
+
+function deleteRow(div) {
+    const taskname = div.previousSibling.children[0].textContent
+    
+    storageCopy.forEach(folder => {
+        folder.tasks.forEach(arr => {
+            if (arr.includes(taskname)) {
+                let index = folder.tasks.indexOf(arr)
+                folder.tasks.splice(index, 1)
+            }
+        })
+    })
+    reRenderTable()
 }
