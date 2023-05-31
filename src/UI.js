@@ -4,12 +4,10 @@ import { populateStorage } from "./storage";
 import { getFromStorage } from "./storage";
 
 let storageCopy = []
+const modal = document.querySelector('.modal')
 const editModal = document.querySelector('.edit-row-modal')
 const closeModal = document.getElementById('close-edit-modal')
 const table = document.getElementById('main-table');
-
-// to-do
-// - Add new tasks
 
 export default function generateUI(folders) {
     storageCopy = folders
@@ -112,6 +110,8 @@ function setOtherEventListerners() {
         e.stopImmediatePropagation()
         createNewFolder(folderNameInput.value)
     })
+
+    modal.addEventListener('click', handleModalEvent)
 }
 
 function createNewFolder(folderName) {
@@ -129,8 +129,41 @@ function createNewFolder(folderName) {
     createUIFolder(newObject)
 }
 
+function createNewTask(name, date, priority) {
+    const newTask = [`${name}`, `${date}`, `${priority}`]
+
+    const selectedFolder = document.querySelector('.selected')
+
+    console.log(selectedFolder)
+
+    storageCopy.forEach(element => {
+        if (element.name == selectedFolder.innerText) {
+            element.tasks.push(newTask)
+        }
+    })
+    reRenderTable()
+}
+
 function fadeRow(div) {
     div.classList.toggle('fade');
+}
+
+function handleModalEvent(event) {
+    let target = event.target
+
+    let nameInput = document.getElementById('modal-text')
+    let dateInput = document.getElementById('modal-date')
+    let prio = getPriority()
+
+    if (target.matches('.submit-button')) {
+        event.stopImmediatePropagation();
+        createNewTask(nameInput.value, dateInput.value, prio)
+        modal.close()
+    } 
+    else if (target.matches('.priority-button')) {
+        event.stopImmediatePropagation();
+        setPriority(target)
+    }
 }
 
 function editRow(sibling) {

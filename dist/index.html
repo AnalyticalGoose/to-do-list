@@ -29,13 +29,8 @@
                     <h3 class="selector">This Week</h3>
                 </div>
             </div>
-            <h2 class="folders-title">Folders</h2>
-            <div class="folders-container">
-                <!-- <div class="selector-container selected">
-                    <img src="./img/folder.svg">
-                    <h3 class="selector">All</h3>
-                </div> -->
-            </div>          
+            <h2 class="folders-title">Folders</h2>         
+            <div class="folders-container"></div>          
             <div class="input-container" id="hide">
                 <form action="">
                     <input class="folder-input" type="text" name="folder-name-input" id="folder-name-input" required>
@@ -52,30 +47,23 @@
         </div>
 
         <div class="list-container">
-            <div class="task-table" id="main-table">
-
-            </div>
-
+            <div class="task-table" id="main-table"></div>
             <button class="add-task-button">Add New Task</button>
         </div>
-
 
         <dialog class="edit-row-modal">
             <div class="modal-title-container">
                 <h2>Edit Task</h2>
                 <img src="./img/close.svg" class="close-modal" id="close-edit-modal">
             </div>
-
             <div class="task-input-container">
                 <p><b>Name:</b></p>
                 <input type="text" required id="edit-text">
             </div>
-
             <div class="task-input-container">
                 <p><b>Date:</b></p>
                 <input class="date-input" type="date" id="edit-date">
             </div>
-
             <div class="task-input-container">
                 <p><b>Priority:</b></p>
                 <button id="edit-low-button" class="priority-button">Low</button>
@@ -86,12 +74,7 @@
             <div class="task-input-container">
                 <button class="submit-edit-button">Submit</button>
             </div>
-
         </dialog>
-
-
-
-
 
         <dialog class="modal">          
             <div class="modal-title-container">
@@ -101,12 +84,12 @@
 
             <div class="task-input-container">
                 <p><b>Name:</b></p>
-                <input type="text" required>
+                <input type="text" required id="modal-text">
             </div>
 
             <div class="task-input-container">
                 <p><b>Date:</b></p>
-                <input class="date-input" type="date">
+                <input class="date-input" type="date" id="modal-date">
             </div>
 
             <div class="task-input-container">
@@ -115,10 +98,11 @@
                 <button id= "medium-button" class="priority-button">Med</button>
                 <button id= "high-button" class="priority-button">High</button>
             </div>
+            <div class="task-input-container">
+                <button class="submit-button">Submit</button>
+            </div>
         </dialog>
     </div>
-
-
-    <script src="main.js"></script>
+    <script src="main.js" defer></script>
 </body>
 </html>
