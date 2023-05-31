@@ -45,6 +45,10 @@ function populateStorage(folders = defaultFolders) {
 
 const defaultFolders = 
     [{
+        name: "All",
+        tasks: []
+    },
+    {
         name : "Personal",
         tasks: [
             ["Study hard!", "2023-06-01", null],

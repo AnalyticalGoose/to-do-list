@@ -9,22 +9,22 @@ const closeModal = document.getElementById('close-edit-modal')
 const table = document.getElementById('main-table');
 
 // to-do
-// - Add new folders
 // - Add new tasks
 
 export default function generateUI(folders) {
     storageCopy = folders
     folders.forEach(element => {
-        createFolder(element)
+        createUIFolder(element)
+        selectAllFolder()
         createTableRow(element)
         setTableEventListeners()
+        setOtherEventListerners()
     });
 }
 
-function createFolder(element) {
+function createUIFolder(element) {
     const foldersContainer = getFoldersContainer();
-    const datesContainer = document.querySelector('.dates-container')
-  
+    
     foldersContainer.innerHTML += `
       <div class="selector-container">
         <img src="./img/folder.svg">
@@ -33,7 +33,11 @@ function createFolder(element) {
     `;
 
     foldersContainer.addEventListener('click', selectFolder)
-    datesContainer.addEventListener('click', selectDate)
+}
+
+function selectAllFolder() {
+    const foldersContainer = getFoldersContainer();
+    foldersContainer.children[0].classList.add('selected')
 }
   
 function createTableRow(element) {
@@ -84,6 +88,45 @@ function setTableEventListeners() {
     };
   
     table.addEventListener('click', handleEvent);
+}
+
+function setOtherEventListerners() {
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            clearPriority();
+            editModal.close();
+        }
+    });
+    
+    closeModal.addEventListener('click', () => {
+        clearPriority();
+        editModal.close();
+    });
+
+    const datesContainer = document.querySelector('.dates-container')
+    datesContainer.addEventListener('click', selectDate)
+
+    const submitNewFolderBtn = document.querySelector('.button-add')
+    const folderNameInput = document.querySelector('#folder-name-input')
+    submitNewFolderBtn.addEventListener('click', (e) =>{
+        e.stopImmediatePropagation()
+        createNewFolder(folderNameInput.value)
+    })
+}
+
+function createNewFolder(folderName) {
+    const inputContainer = document.querySelector('.input-container')
+    const addFolderBtn = document.querySelector('.add-folder-container') 
+
+    const newObject = {name : `${folderName}`, tasks: []}
+
+    storageCopy.push(newObject)
+    populateStorage(storageCopy)
+
+    inputContainer.setAttribute('id', 'hide')
+    addFolderBtn.removeAttribute('id', 'hide')
+
+    createUIFolder(newObject)
 }
 
 function fadeRow(div) {
@@ -230,10 +273,10 @@ const filterFolders = (e) => {
   
     const taskRows = document.querySelectorAll('.task-row');
     taskRows.forEach(row => {
-        if (row.id == folderName ) {
-            row.classList.add('hide');
+        if (row.id == folderName || folderName == 'All' ) {
+            row.classList.remove('hide');
         }   else {
-                row.classList.remove('hide');
+                row.classList.add('hide');
         }
     });
 };
@@ -312,15 +355,3 @@ function isWithinCurrentWeek(taskDate, currentDate) {
   
     return taskDate >= firstDayOfWeek && taskDate <= lastDayOfWeek;
 }
-
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        clearPriority();
-        editModal.close();
-    }
-});
-
-closeModal.addEventListener('click', () => {
-    clearPriority();
-    editModal.close();
-});
